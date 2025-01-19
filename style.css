@@ -1,0 +1,138 @@
+@import url('https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Heebo:wght@300&family=Yantramanav:wght@100;300;400;500;700;900&display=swap');
+
+body,
+#canvas, #score {
+    margin: 0;
+    width: 100%;
+    height: 100vh;
+    font-family: 'Black Ops One', cusrive;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+body {
+    position: fixed;
+}
+
+#canvas {
+    outline: none;
+}
+
+#scoreInfor {
+    font-size: 25px;
+    position: absolute;
+    top: -8px;
+    right: 80px;
+}
+
+#coin {
+    position: absolute;
+    width: 50px;
+    top: 5px;
+    right: 20px;
+}
+
+#gameOver {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    top: 10vh;
+    display: none;
+}
+
+#gameOverInfo {
+    color: red;
+    font-size: 40px;
+}
+
+#nowScore {
+    font-size: 30px;
+    color: gray;
+}
+
+#bestscoreinfo {
+    font-size: 30px;
+    color: gray;
+}
+
+#restart {
+    width: 50px;
+}
+
+#loadscreen {
+    width: 100%;
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    font-size: 40px;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+    background-color: yellowgreen;
+    color: green;
+}
+
+#nav-bar,
+#shop-icon,
+#back-icon {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+#shop-icon,
+#back-icon {
+    width: 40px;
+    display: none;
+}
+
+#shop-screen {
+    position: absolute;
+    display: none;
+    top: 55vh;
+    justify-content: space-between;
+    align-items: center;
+    gap: 60vw;
+}
+
+#left {
+    width: 20vw;
+}
+
+#right {
+    width: 20vw;
+}
+
+#price-block {
+    position: absolute;
+    display: none;
+    width: 30vw;
+    top: 50vh;
+    left: 35vw;
+    text-align: center;
+}
+
+#blockP {
+    width: 30vw;
+}
+
+#price-info {
+    color: yellow;
+    font-size: 30px;
+}
+
+@media (min-width: 1020px) {
+    #blockP {
+        width: 10vw;
+    }
+        #price-block {
+            position: absolute;
+            display: none;
+            width: 30vw;
+            top: 55vh;
+            left: 35vw;
+            text-align: center;
+        }
+}

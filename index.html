@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>TESLA GAME</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.babylonjs.com/ammo.js"></script>
+    <script src="https://cdn.babylonjs.com/babylon.js"></script>
+    <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.js"></script>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+    <div id="score">
+        <img src="assets/icons/coin.png" alt="" id="coin">
+        <p id="scoreInfor">0</p>
+    </div>
+    <div id="gameOver">
+        <p id="gameOverInfo">GAME OVER</p>
+         <p id="bestscoreinfo">BEST:</p>
+        <p id="nowScore">NOW:</p>
+        <img src="assets/icons/restart.png" alt="" id="restart">
+    </div>
+    <div id="loadscreen">
+        <p>Loading...</p>
+    </div>
+    <div id="nav-bar">
+        <img src="assets/shop/shop-icon.png" alt="" id="shop-icon">
+        <img src="assets/shop/back-icon.png" alt="" id="back-icon">
+    </div>
+    <div id="shop-screen">
+        <img src="assets/shop/left-arrow.png" alt="" id="left" onclick="arrowClick(-1)">
+        <img src="assets/shop/right-arrow.png" alt="" id="right" onclick="arrowClick(1)">
+    </div>
+
+    <div id="price-block">
+        <img src="assets/shop/lock-icon.png" alt="" id="blockP">
+        <p id="price-info">0</p>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
