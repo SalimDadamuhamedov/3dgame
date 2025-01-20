@@ -90,7 +90,8 @@ const creatPlatform = (zPos) => {
 
 let coinArray = [];
 let colArray = [];
-const createCoin = async (pos) => {
+let coin = null;
+const createCoin = (pos) => {
     let collissionMesh = new BABYLON.MeshBuilder.CreateBox(
         "colBox",
         { size: 1 },
@@ -99,13 +100,13 @@ const createCoin = async (pos) => {
     collissionMesh.hasVertexAlpha = true;
     collissionMesh.visibility = 0;
     collissionMesh.position = pos;
-    await BABYLON.SceneLoader.ImportMesh(
+    BABYLON.SceneLoader.ImportMesh(
         null,
         "assets/models/",
         "coin.glb",
         scene,
         (meshArray) => {
-            let coin = meshArray[0];
+            coin = meshArray[0];
             shadowGenerator.addShadowCaster(coin);
             coin.receiveShadows = true;
             coin.parent = collissionMesh;
@@ -144,7 +145,7 @@ const createCone = (xPos, zPos) => {
 };
 let lastRand = null;
 let pointArray = [];
-const createConeRow = async (zPos) => {
+const createConeRow =  (zPos) => {
     let rand = Math.floor(Math.random() * 3);
     while (rand === lastRand) {
         rand = Math.floor(Math.random() * 3);
@@ -152,7 +153,7 @@ const createConeRow = async (zPos) => {
     lastRand = rand;
     for (let i = 0; i < 3; i++) {
         if (i === rand) {
-            await createCoin(new BABYLON.Vector3(i * 2 - 2, 1, zPos + 5));
+            createCoin(new BABYLON.Vector3(i * 2 - 2, 1, zPos + 5));
             pointArray.push(new BABYLON.Vector3(i * 2 - 2, 0.2, zPos + 5));
             continue;
         }
@@ -160,18 +161,18 @@ const createConeRow = async (zPos) => {
     }
 };
 let speed = 20;
-const createCar = async (needP = true) => {
-    let boxPriv = new BABYLON.MeshBuilder.CreateBox("box", {
+const createCar = (needP = true) => {
+    let box = new BABYLON.MeshBuilder.CreateBox("box", {
         width: 1.1,
         height: 0.8,
         depth: 3,
     });
-    boxPriv.position = new BABYLON.Vector3(0, 1, 0);
-    boxPriv.material = new BABYLON.StandardMaterial("material", scene);
-    boxPriv.material.emissiveColor = new BABYLON.Color3(1, 0, 0);
+    box.position = new BABYLON.Vector3(0, 1, 0);
+    box.material = new BABYLON.StandardMaterial("material", scene);
+    box.material.emissiveColor = new BABYLON.Color3(1, 0, 0);
     if (needP) {
-        boxPriv.physicsImpostor = new BABYLON.PhysicsImpostor(
-            boxPriv,
+        box.physicsImpostor = new BABYLON.PhysicsImpostor(
+            box,
             BABYLON.PhysicsImpostor.BoxImpostor,
             {
                 mass: 1,
@@ -181,31 +182,34 @@ const createCar = async (needP = true) => {
             scene
         );
     }
-    boxPriv.hasVertexAlpha = true;
-    boxPriv.visibility = 0;
-    const meshes = await BABYLON.SceneLoader.ImportMeshAsync(
+    box.hasVertexAlpha = true;
+    box.visibility = 0;
+    BABYLON.SceneLoader.ImportMesh(
         "",
         "assets/models/",
         "car0.glb",
         scene,
+        (meshes) => {
+            let car = meshes[0];
+
+            car.parent = box;
+            car.position = new BABYLON.Vector3(0, -0.5, -0.3);
+            car.rotation = new BABYLON.Vector3(0, Math.PI * 2, 0);
+            shadowGenerator.addShadowCaster(car);
+            if (!onShop && coinArray.length > 8) shopIcon.style.display = 'block';
+            if (onShop) {backIcon.style.display = 'block'}
+        }
     );
 
-    const car = meshes?.meshes[0];
 
-    car.parent = boxPriv;
-    car.position = new BABYLON.Vector3(0, -0.5, -0.3);
-    car.rotation = new BABYLON.Vector3(0, Math.PI * 2, 0);
-    shadowGenerator.addShadowCaster(car);
-
-
-    return boxPriv;
+    return box;
 };
 
 //ФУНКЦИИ ИГРЫ
 let demoArray = [];
 let demoTimer;
-const createDemoObjects = async () => {
-    let box = await createCar(false);
+const createDemoObjects = () => {
+    let box = createCar(false);
     box.position = new BABYLON.Vector3(0, 6, 0);
     box.scaling = new BABYLON.Vector3(1.5, 1.5, 1.5);
     box.rotation.y += BABYLON.Tools.ToRadians(135);
@@ -279,13 +283,13 @@ const deleteGameObjects = () => {
     clearArray(pointArray, false);
 };
 
-const createGameObjects = async () => {
+const createGameObjects =  () => {
     for (let i = 0; i < 10; i++) {
         creatPlatform(i * 12);
         if (i === 0) continue;
-        await createConeRow(i * 12);
+        createConeRow(i * 12);
     }
-    box = await createCar();
+    box = createCar();
 };
 
 const restartGame = () => {
@@ -293,16 +297,13 @@ const restartGame = () => {
     bestscoreinfo.style.color = "gray";
     nowScore.style.color = "gray";
     deleteGameObjects();
-    createGameObjects().then(() => {
+    createGameObjects()
         gameOver = false;
         inMove = false;
         skybox.position = new BABYLON.Vector3.Zero();
         nowscore = 0;
         speed = 20;
         shopIcon.style.opacity = "1";
-        shopIcon.style.pointerEvents = "all";
-        console.log(coinArray)
-    });
 };
 //ОБРАБОТЧИКИ
 
@@ -317,7 +318,6 @@ window.addEventListener("touchend", (event) => {
             box.physicsImpostor.setLinearVelocity(new BABYLON.Vector3(0, 0, speed));
             inMove = true;
             shopIcon.style.opacity = "0.3";
-            shopIcon.style.pointerEvents = "none";
             shopIcon.style
         } else if (inMove && !gameOver) {
             let touch = event.changedTouches[0];
@@ -375,25 +375,21 @@ window.addEventListener("load", () => {
     }, 2000);
 });
 
-shopIcon.addEventListener("click", async () => {
+shopIcon.addEventListener("click", () => {
     if (!inMove && !gameOver) {
         onShop = true;
         deleteGameObjects();
-        await createDemoObjects();
+        createDemoObjects();
         shopIcon.style.display = "none";
         priceBlock.style.display = "block";
         shopScreen.style.display = "flex";
-        backIcon.style.display = "block";
     }
 });
 
-backIcon.addEventListener("click", async () => {
+backIcon.addEventListener("click", () => {
     deleteDemoObjects();
-    await createGameObjects();
-
+    createGameObjects();
     onShop = false;
-
-    shopIcon.style.display = "block";
     backIcon.style.display = "none";
     priceBlock.style.display = "none";
     shopScreen.style.display = "none";
@@ -461,11 +457,9 @@ Ammo().then(() => {
     const physicsPlugin = new BABYLON.AmmoJSPlugin();
     scene.enablePhysics(new BABYLON.Vector3(0, -9.81, 0), physicsPlugin);
 
-    createGameObjects().then(() => {
+    createGameObjects()
         engine.runRenderLoop(() => {
             scene.render();
         });
-
-        shopIcon.style.display = "block";
-    });
+   
 });
