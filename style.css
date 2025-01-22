@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Heebo:wght@300&family=Yantramanav:wght@100;300;400;500;700;900&display=swap');
 
 body,
-#canvas, #score {
+#canvas{
     margin: 0;
     width: 100%;
     height: 100vh;
@@ -18,25 +18,28 @@ body {
     outline: none;
 }
 
-#scoreInfor {
-    font-size: 25px;
+#scoren {
     position: absolute;
-    top: -8px;
-    right: 80px;
+    width: 100%;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-#coin {
-    position: absolute;
-    width: 50px;
-    top: 5px;
-    right: 20px;
+#score {
+    font-size: 40px;
+    color: red
 }
+
 
 #gameOver {
     position: absolute;
     width: 100%;
     text-align: center;
-    top: 10vh;
+    top: 5vh;
     display: none;
 }
 
@@ -74,65 +77,3 @@ body {
     color: green;
 }
 
-#nav-bar,
-#shop-icon,
-#back-icon {
-    position: absolute;
-    top: 0;
-    left: 0;
-}
-
-#shop-icon,
-#back-icon {
-    width: 40px;
-    display: none;
-}
-
-#shop-screen {
-    position: absolute;
-    display: none;
-    top: 55vh;
-    justify-content: space-between;
-    align-items: center;
-    gap: 60vw;
-}
-
-#left {
-    width: 20vw;
-}
-
-#right {
-    width: 20vw;
-}
-
-#price-block {
-    position: absolute;
-    display: none;
-    width: 30vw;
-    top: 50vh;
-    left: 35vw;
-    text-align: center;
-}
-
-#blockP {
-    width: 30vw;
-}
-
-#price-info {
-    color: yellow;
-    font-size: 30px;
-}
-
-@media (min-width: 1020px) {
-    #blockP {
-        width: 10vw;
-    }
-        #price-block {
-            position: absolute;
-            display: none;
-            width: 30vw;
-            top: 55vh;
-            left: 35vw;
-            text-align: center;
-        }
-}
